@@ -12,14 +12,12 @@ public class UserMapper {
 
     public User mapToUser(final UserDto userDto) {
         return new User(
-                userDto.getId(),
                 userDto.getFirstName(),
                 userDto.getLastName());
     }
 
     public UserDto mapToUserDto(final User user) {
         return new UserDto(
-                user.getId(),
                 user.getFirstName(),
                 user.getLastName());
     }

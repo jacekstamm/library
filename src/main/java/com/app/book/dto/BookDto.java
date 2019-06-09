@@ -15,4 +15,11 @@ public class BookDto {
     private String author;
     private String yearOfPublication;
     private boolean isRented = false;
+
+    public BookDto(String title, String author, String yearOfPublication, boolean isRented) {
+        this.title = title;
+        this.author = author;
+        this.yearOfPublication = yearOfPublication;
+        this.isRented = isRented;
+    }
 }

@@ -1,4 +1,4 @@
-package com.app.book.controller;
+package com.app.book.exception;
 
 public class BookNotFoundException extends Exception {
 }

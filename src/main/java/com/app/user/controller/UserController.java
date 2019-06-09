@@ -1,6 +1,7 @@
 package com.app.user.controller;
 
 import com.app.user.dto.UserDto;
+import com.app.user.exception.UserNotFoundException;
 import com.app.user.mapper.UserMapper;
 import com.app.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

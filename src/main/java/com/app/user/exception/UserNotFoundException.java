@@ -1,4 +1,4 @@
-package com.app.user.controller;
+package com.app.user.exception;
 
 public class UserNotFoundException extends Exception {
 }

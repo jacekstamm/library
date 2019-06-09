@@ -31,4 +31,11 @@ public class Book {
 
     @Column(name = "isRented")
     private boolean isRented = false;
+
+    public Book(String title, String author, String yearOfPublication, boolean isRented) {
+        this.title = title;
+        this.author = author;
+        this.yearOfPublication = yearOfPublication;
+        this.isRented = isRented;
+    }
 }
