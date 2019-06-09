@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 
@@ -16,8 +14,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 public class User {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

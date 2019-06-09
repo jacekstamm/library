@@ -17,16 +17,16 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUser(final Long userId) {
-        return userRepository.findUserById(userId);
+    public Optional<User> getUser(final Long id) {
+        return userRepository.findUserById(id);
     }
 
     public User saveUser(final User user) {
         return userRepository.save(user);
     }
 
-    public void deleteUser(final Long userId) {
-        userRepository.delete(userId);
+    public void deleteUser(final Long id) {
+        userRepository.delete(id);
     }
 
     public void deleteAll() {

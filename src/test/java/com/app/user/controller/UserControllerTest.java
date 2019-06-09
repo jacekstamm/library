@@ -5,6 +5,8 @@ import com.app.user.dto.UserDto;
 import com.app.user.exception.UserNotFoundException;
 import com.app.user.mapper.UserMapper;
 import com.app.user.service.UserService;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -20,7 +22,7 @@ import static org.junit.Assert.*;
 @SpringBootTest
 public class UserControllerTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserControllerTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserController userController;
@@ -29,67 +31,92 @@ public class UserControllerTest {
     @Autowired
     private UserMapper userMapper;
 
+    @Before
+    public void before() {
+        LOGGER.info("Start testing UserController Class");
+    }
+
+    @After
+    public void after() {
+        LOGGER.info("Finished testing UserController Class");
+    }
+
     @Test
-    public void getUsers() {
+    public void testShouldGetUsers() {
         //Given
-        User testUser = new User("test name", "test surname");
-        userService.saveUser(testUser);
+        userService.saveUser(new User("Jacek", "Stamm"));
         //When
         List<UserDto> result =  userController.getUsers();
         //Then
         assertEquals(1, result.size());
         //CleanUp
-        userService.deleteUser(testUser.getId());
+        userService.deleteUser(result.get(0).getId());
     }
 
     @Test
-    public void getUser() throws UserNotFoundException {
+    public void testShouldGetUser() {
         //Given
-        User testUser = new User("test name", "test surname");
-        userService.saveUser(testUser);
-        //When
-        UserDto result = userController.getUser(testUser.getId());
-        //Then
-        assertEquals("test name", result.getFirstName());
-        //CleanUp
-        userService.deleteUser(testUser.getId());
-    }
-
-    @Test
-    public void createUser() {
-        //Given
-        User testUser = new User(1L, "test name", "test surname");
+        userService.saveUser(new User("Dorota", "Bocian"));
+        Long userId = userController.getUsers().get(0).getId();
         //When
         try {
-            userController.createUser(userMapper.mapToUserDto(testUser));
+            UserDto result = userController.getUser(userId);
             //Then
-            assertEquals("test name", userController.getUser(testUser.getId()).getFirstName());
+            assertEquals(userId, result.getId());
+            assertEquals("Bocian", result.getLastName());
+            assertEquals("Dorota", result.getFirstName());
             //CleanUp
-            userService.deleteAll();
+            userService.deleteUser(result.getId());
         } catch (UserNotFoundException ignored) {
         }
     }
 
     @Test
-    public void updateUser() throws UserNotFoundException {
+    public void testShouldCreateUser() {
         //Given
-        userController.createUser(new UserDto(1L, "Test name", "Test surname"));
-        userController.getUser(1L).setFirstName("USERNAME TEST");
         //When
-        UserDto result = userController.updateUser(userController.getUser(1L));
+        userController.createUser(userMapper.mapToUserDto(new User("John", "Snow")));
+        Long userId = userController.getUsers().get(0).getId();
         //Then
-        assertEquals("USERNAME TEST", result.getFirstName());
-        //ClenUp
-        userService.deleteUser(1L);
+        try {
+            assertEquals("John", userController.getUser(userId).getFirstName());
+            assertEquals("Snow", userController.getUser(userId).getLastName());
+            //CleanUp
+            userService.deleteUser(userId);
+        } catch (UserNotFoundException ignored) {
+        }
     }
 
     @Test
-    public void deleteUser() {
+    public void testShouldUpdateUser() {
         //Given
-
+        userService.saveUser(new User("James", "Bond"));
+        Long userId = userService.getAllUsers().get(0).getId();
+        UserDto jamesKowalski = new UserDto();
+        jamesKowalski.setId(userId);
+        jamesKowalski.setLastName("Kowalski");
+        //When
+        userController.updateUser(jamesKowalski);
+        //Then
+        try {
+            assertEquals("Kowalski", userController.getUser(userId).getLastName());
+            //CleanUo
+            userService.deleteUser(userId);
+        } catch (UserNotFoundException ignored){
+        }
     }
 
     @Test
-    public void borrowBook() {
+    public void testShouldDeleteUser() {
+        //Given
+        userService.saveUser(new User("Jerzy", "Kiler"));
+        Long userId = userService.getAllUsers().get(0).getId();
+        int sizeBefore = userController.getUsers().size();
+        //When
+        userController.deleteUser(userId);
+        int sizeAfter = userController.getUsers().size();
+        //Then
+        assertEquals(1, sizeBefore);
+        assertEquals(0, sizeAfter);
     }
 }

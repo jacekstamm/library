@@ -14,13 +14,13 @@ public interface UserRepository extends CrudRepository<User, Long> {
     @Override
     List<User> findAll();
 
-    Optional<User> findUserById(Long userId);
+    Optional<User> findUserById(Long id);
 
     @Override
     User save(User user);
 
     @Override
-    void delete(Long userId);
+    void delete(Long id);
 
     void deleteAll();
 }
