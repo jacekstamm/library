@@ -49,13 +49,12 @@ public class BookController {
     }
 
     @PutMapping(value = "borrowBook")
-    public void borrowBook(@RequestBody UserDto userDto, @RequestBody BookDto bookDto) {
-        libraryProcessor.borrowBook(bookDto, userDto);
+    public boolean borrowBook(@RequestBody UserDto userDto, @RequestBody BookDto bookDto) {
+        return libraryProcessor.borrowBook(bookDto, userDto);
     }
 
     @PutMapping(value = "returnBook")
-    public void returnBook(@RequestBody BookDto bookDto) {
-        libraryProcessor.returnBook(bookDto);
+    public boolean returnBook(@RequestBody BookDto bookDto) {
+        return libraryProcessor.returnBook(bookDto);
     }
-
 }

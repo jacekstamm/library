@@ -155,6 +155,22 @@ public class BookControllerTest {
     }
 
     @Test
+    public void testShouldDeniedBorrow() {
+        //Given
+        User jamesBond = userService.saveUser(new User("James", "Bond"));
+        Book quoVadis = bookService.saveBook(new Book("Quo Vadis", "Henryk Sienkiewicz", "1895", true));
+        UserDto dtoJamesBond = userMapper.mapToUserDto(jamesBond);
+        BookDto dtoQuoVadis = bookMapper.mapToBookDto(quoVadis);
+        //When
+        boolean result = bookController.borrowBook(dtoJamesBond, dtoQuoVadis);
+        //Then
+        assertFalse(result);
+        //CleanUp
+        userService.deleteUser(jamesBond.getId());
+        bookService.deleteBook(quoVadis.getId());
+    }
+
+    @Test
     public void testShouldReturnBook() {
         //Given
         User jamesBond = userService.saveUser(new User("James", "Bond"));
@@ -172,4 +188,6 @@ public class BookControllerTest {
         bookService.deleteBook(quoVadis.getId());
         borrowService.deleteAll();
     }
+
+
 }
