@@ -24,12 +24,6 @@ public class UserMapper {
                 user.getLastName());
     }
 
-    public List<User> mapToUserList(final List<UserDto> userDtoList) {
-        return userDtoList.stream()
-                .map(userDto -> new User(userDto.getId(), userDto.getFirstName(), userDto.getLastName()))
-                .collect(Collectors.toList());
-    }
-
     public List<UserDto> mapToUserDtoList(final List<User> userList) {
         return userList.stream()
                 .map(user -> new UserDto(user.getId(), user.getFirstName(), user.getLastName()))

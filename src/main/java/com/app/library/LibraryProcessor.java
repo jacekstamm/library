@@ -33,10 +33,10 @@ public class LibraryProcessor {
             book.setRented(true);
             bookService.saveBook(bookMapper.mapToBook(book));
             Borrow createdBorrow = borrowService.saveBorrow(new Borrow(user.getId(), book.getId()));
-            LOGGER.info("User id: " + user.getId() + " borrowed book: " + book.getTitle() + " | Borrow ID: " + createdBorrow.getId() + " | Time: " + LocalDateTime.now().format(timeformat));
+            LOGGER.info("User ID: " + user.getId() + " borrowed book: " + book.getTitle() + " | Borrow ID: " + createdBorrow.getId() + " | Time: " + LocalDateTime.now().format(timeformat));
             return true;
         } else {
-            LOGGER.info("Book is borrowed already");
+            LOGGER.info("Book is borrowed already. Please choose other book.");
             return false;
         }
     }
@@ -46,10 +46,10 @@ public class LibraryProcessor {
         if (book.isRented()) {
             book.setRented(false);
             bookService.saveBook(bookMapper.mapToBook(book));
-            LOGGER.info("Returning book: " + book.getTitle() + " | Time: " + LocalDateTime.now().format(timeformat));
+            LOGGER.info("Returning book: " + book.getTitle() + " with ID: " + book.getId() + " | Time: " + LocalDateTime.now().format(timeformat));
             return true;
         } else {
-            LOGGER.info("Book is already returned");
+            LOGGER.info("Book is already returned.");
             return false;
         }
     }

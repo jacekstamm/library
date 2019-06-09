@@ -28,12 +28,6 @@ public class BookMapper {
                 book.isRented());
     }
 
-    public List<Book> mapToBookList(final List<BookDto> bookDtoList) {
-        return bookDtoList.stream()
-                .map(bookDto -> new Book(bookDto.getTitle(), bookDto.getAuthor(), bookDto.getYearOfPublication(), bookDto.isRented()))
-                .collect(Collectors.toList());
-    }
-
     public List<BookDto> mapToBookDtoList(final List<Book> bookList) {
         return bookList.stream()
                 .map(book -> new BookDto(book.getId(), book.getTitle(), book.getAuthor(), book.getYearOfPublication(), book.isRented()))
