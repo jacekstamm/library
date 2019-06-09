@@ -1,7 +1,5 @@
 package com.app.library.borrow.domain;
 
-import com.app.book.domain.Book;
-import com.app.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +21,13 @@ public class Borrow {
     private Long id;
 
     @Column(name = "USER_ID")
-    private User user;
+    private Long userId;
 
     @Column(name = "BOOK_ID")
-    private Book book;
+    private Long bookId;
 
+    public Borrow(Long userId, Long bookId) {
+        this.userId = userId;
+        this.bookId = bookId;
+    }
 }

@@ -5,6 +5,12 @@ import com.app.book.dto.BookDto;
 import com.app.book.exception.BookNotFoundException;
 import com.app.book.mapper.BookMapper;
 import com.app.book.service.BookService;
+import com.app.library.borrow.domain.Borrow;
+import com.app.library.borrow.service.BorrowService;
+import com.app.user.domain.User;
+import com.app.user.dto.UserDto;
+import com.app.user.mapper.UserMapper;
+import com.app.user.service.UserService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +37,12 @@ public class BookControllerTest {
     private BookService bookService;
     @Autowired
     private BookMapper bookMapper;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private BorrowService borrowService;
 
     @Before
     public void before() {
@@ -127,5 +139,37 @@ public class BookControllerTest {
 
     @Test
     public void testShouldBorrowBook() {
+        //Given
+        User jamesBond = userService.saveUser(new User("James", "Bond"));
+        Book quoVadis = bookService.saveBook(new Book("Quo Vadis", "Henryk Sienkiewicz", "1895", false));
+        UserDto dtoJamesBond = userMapper.mapToUserDto(jamesBond);
+        BookDto dtoQuoVadis = bookMapper.mapToBookDto(quoVadis);
+        //When
+        bookController.borrowBook(dtoJamesBond, dtoQuoVadis);
+        //Then
+        assertTrue(bookService.findBookById(quoVadis.getId()).get().isRented());
+        //CleanUp
+        userService.deleteUser(jamesBond.getId());
+        bookService.deleteBook(quoVadis.getId());
+        borrowService.deleteAll();
+    }
+
+    @Test
+    public void testShouldReturnBook() {
+        //Given
+        User jamesBond = userService.saveUser(new User("James", "Bond"));
+        Book quoVadis = bookService.saveBook(new Book("Quo Vadis", "Henryk Sienkiewicz", "1895", false));
+        UserDto dtoJamesBond = userMapper.mapToUserDto(jamesBond);
+        BookDto dtoQuoVadis = bookMapper.mapToBookDto(quoVadis);
+
+        bookController.borrowBook(dtoJamesBond, dtoQuoVadis);
+        //When
+        bookController.returnBook(dtoQuoVadis);
+        //Then
+        assertFalse(bookService.findBookById(quoVadis.getId()).get().isRented());
+        //CleanUp
+        userService.deleteUser(jamesBond.getId());
+        bookService.deleteBook(quoVadis.getId());
+        borrowService.deleteAll();
     }
 }
