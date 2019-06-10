@@ -23,3 +23,8 @@ and code below:
 API Documentation created by Swagger worked on the link:
 **http://localhost:8080/swagger-ui.html**
 after lunch application.
+
+# Lombok
+
+Application use Lombok library. Please make sure that on your IDE **annotation processing is enable**.
+Make sure you have installed Lombok Plugin to your IDE.
