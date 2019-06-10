@@ -36,7 +36,7 @@ public class BookController {
 
     @GetMapping(value = "getBook")
     public  BookDto getBook(@RequestParam Long bookId) throws BookNotFoundException {
-        LOGGER.info("Book ID: " + bookId + "found.");
+        LOGGER.info("Book ID: " + bookId + " found.");
         return bookMapper.mapToBookDto(bookService.findBookById(bookId).orElseThrow(BookNotFoundException::new));
     }
 

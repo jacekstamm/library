@@ -28,12 +28,12 @@ public class LibraryProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(LibraryProcessor.class);
 
     public boolean borrowBook(BookDto book, UserDto user) {
-        DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if (!book.isRented()) {
             book.setRented(true);
             bookService.saveBook(bookMapper.mapToBook(book));
             Borrow createdBorrow = borrowService.saveBorrow(new Borrow(user.getId(), book.getId()));
-            LOGGER.info("User ID: " + user.getId() + " borrowed book: " + book.getTitle() + " | Borrow ID: " + createdBorrow.getId() + " | Time: " + LocalDateTime.now().format(timeformat));
+            LOGGER.info("User ID: " + user.getId() + " borrowed book: " + book.getTitle() + " | Borrow ID: " + createdBorrow.getId() + " | Time: " + LocalDateTime.now().format(timeFormat));
             return true;
         } else {
             LOGGER.info("Book is borrowed already. Please choose other book.");
@@ -42,11 +42,11 @@ public class LibraryProcessor {
     }
 
     public boolean returnBook(BookDto book) {
-        DateTimeFormatter timeformat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         if (book.isRented()) {
             book.setRented(false);
             bookService.saveBook(bookMapper.mapToBook(book));
-            LOGGER.info("Returning book: " + book.getTitle() + " with ID: " + book.getId() + " | Time: " + LocalDateTime.now().format(timeformat));
+            LOGGER.info("Returning book: " + book.getTitle() + " with ID: " + book.getId() + " | Time: " + LocalDateTime.now().format(timeFormat));
             return true;
         } else {
             LOGGER.info("Book is already returned.");
