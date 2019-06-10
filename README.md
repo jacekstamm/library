@@ -1,6 +1,6 @@
 # Application Description
 
-In this repository, you can find **Library App with REST API and MySQL Databese**. Whole Application it's JAVA backend of library simple system with renting books. In future will be deployed on Heroku Server
+In this repository, you can find **Library App with REST API and MySQL Databese**. Whole Application it's JAVA backend of library simple system with books renting. In future will be deployed on Heroku Server.
 
 # How it's created
 
